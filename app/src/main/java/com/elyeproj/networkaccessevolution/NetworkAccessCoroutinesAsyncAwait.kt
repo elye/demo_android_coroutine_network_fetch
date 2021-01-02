@@ -1,6 +1,5 @@
 package com.elyeproj.networkaccessevolution
 
-import android.util.Log
 import kotlinx.coroutines.*
 import okhttp3.HttpUrl
 
@@ -8,7 +7,7 @@ class NetworkAccessCoroutinesAsyncAwait(private val view: MainView) : NetworkAcc
     private var coroutineScope: CoroutineScope? = null
 
     private val errorHandler = CoroutineExceptionHandler { context, error ->
-        Log.d("Track", "Async Exception")
+        logOut("Async Exception")
         coroutineScope?.launch(Dispatchers.Main) {
             logOut("Async Exception Result")
             view.updateScreen(error.localizedMessage ?: "")

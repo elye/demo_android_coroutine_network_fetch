@@ -1,6 +1,5 @@
 package com.elyeproj.networkaccessevolution
 
-import android.util.Log
 import kotlinx.coroutines.*
 import okhttp3.HttpUrl
 
