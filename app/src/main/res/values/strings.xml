@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Network Access Evolution</string>
+    <string name="hint_search_string">Enter Search Text</string>
+    <string name="button_search_coroutines_async_await">Coroutines Async Await Based Search</string>
+    <string name="button_search_coroutines_async_await_error">Coroutines Async Await Based Search Error</string>
+    <string name="button_search_coroutines_async_await_crash">Coroutines Async Await Based Search Crash</string>
+    <string name="button_search_coroutines_launch">Coroutines Launch Based Search</string>
+    <string name="button_search_coroutines_launch_error">Coroutines Launch Based Search Error</string>
+    <string name="button_search_coroutines_launch_crash">Coroutines Launch Based Search Crash</string>
+    <string name="button_cancel">Cancel All Request</string>
+</resources>

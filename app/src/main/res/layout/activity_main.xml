@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_search_string"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_launch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_launch" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_launch_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_launch_error" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_launch_crash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_launch_crash" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_async_await"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_async_await" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_async_await_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_async_await_error" />
+
+    <Button
+        android:id="@+id/btn_search_coroutines_async_await_crash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_coroutines_async_await_crash" />
+
+    <Button
+        android:id="@+id/btn_cancel_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_cancel" />
+
+    <TextView
+        android:id="@+id/txt_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+</LinearLayout>
