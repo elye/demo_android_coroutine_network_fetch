@@ -10,8 +10,8 @@ class NetworkAccessCoroutinesAsyncAwait(private val view: MainView) : NetworkAcc
     private val errorHandler = CoroutineExceptionHandler { context, error ->
         Log.d("Track", "Async Exception")
         coroutineScope?.launch(Dispatchers.Main) {
-            Log.d("Track", "Async Exception Result")
-            view.updateScreen(error.localizedMessage)
+            logOut("Async Exception Result")
+            view.updateScreen(error.localizedMessage ?: "")
         }
     }
 
@@ -21,24 +21,24 @@ class NetworkAccessCoroutinesAsyncAwait(private val view: MainView) : NetworkAcc
         coroutineScope?.launch(errorHandler) {
             try {
                 val defer = async(Dispatchers.IO) {
-                    Log.d("Track", "Async Fetch Started")
+                    logOut("Async Fetch Started")
 
                     Network.fetchHttpResult(httpUrlBuilder, searchText).apply {
-                        Log.d("Track", "Async Fetch Done")
+                        logOut("Async Fetch Done")
                     }
                 }
                 when (val result = defer.await()) {
                     is Network.Result.NetworkError -> {
                         view.updateScreen(result.message)
-                        Log.d("Track", "Async Post Error Result")
+                        logOut("Async Post Error Result")
                     }
                     is Network.Result.NetworkResult -> {
                         view.updateScreen(result.message)
-                        Log.d("Track", "Async Post Success Result")
+                        logOut("Async Post Success Result")
                     }
                 }
             } catch (e: CancellationException) {
-                Log.d("Track", "Async Cancel Result")
+                logOut("Async Cancel Result")
             }
         }
     }

@@ -8,10 +8,10 @@ class NetworkAccessCoroutinesLaunch(private val view: MainView) : NetworkAccess 
     private var coroutineScope: CoroutineScope? = null
 
     private val errorHandler = CoroutineExceptionHandler { context, error ->
-        Log.d("Track", "Launch Exception")
+        logOut("Launch Exception")
         coroutineScope?.launch(Dispatchers.Main) {
-            Log.d("Track", "Launch Exception Result")
-            view.updateScreen(error.localizedMessage)
+            logOut("Launch Exception Result")
+            view.updateScreen(error.localizedMessage ?: "")
         }
     }
 
@@ -20,29 +20,29 @@ class NetworkAccessCoroutinesLaunch(private val view: MainView) : NetworkAccess 
         coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         coroutineScope?.launch(errorHandler) {
             try {
-                Log.d("Track", "Launch Fetch Started")
+                logOut("Launch Fetch Started")
                 val result = Network.fetchHttpResult(httpUrlBuilder, searchText)
-                Log.d("Track", "Launch Fetch Done")
+                logOut("Launch Fetch Done")
 
 //                throw IllegalStateException("My Error")
 //                if (!isActive) {
-//                    Log.d("Elisha", "cancel launch")
+//                    logOut("cancel launch")
 //                }
                 yield()
                 launch(Dispatchers.Main) {
                     when(result) {
                         is Network.Result.NetworkError -> {
                             view.updateScreen(result.message)
-                            Log.d("Track", "Launch Post Error Result")
+                            logOut("Launch Post Error Result")
                         }
                         is Network.Result.NetworkResult -> {
                             view.updateScreen(result.message)
-                            Log.d("Track", "Launch Post Success Result")
+                            logOut("Launch Post Success Result")
                         }
                     }
                 }
             } catch (e: CancellationException) {
-                Log.d("Track", "Launch Cancel Result")
+                logOut("Launch Cancel Result")
             }
         }
     }
