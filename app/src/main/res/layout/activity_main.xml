@@ -49,6 +49,24 @@
         android:text="@string/button_search_coroutines_async_await_crash" />
 
     <Button
+        android:id="@+id/btn_search_suspend_coroutine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_suspend_coroutine" />
+
+    <Button
+        android:id="@+id/btn_search_suspend_coroutine_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_suspend_coroutine_error" />
+
+    <Button
+        android:id="@+id/btn_search_suspend_coroutine_crash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search_suspend_coroutine_crash" />
+    
+    <Button
         android:id="@+id/btn_cancel_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

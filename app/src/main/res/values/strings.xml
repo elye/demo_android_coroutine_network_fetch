@@ -8,4 +8,7 @@
     <string name="button_search_coroutines_launch_error">Coroutines Launch Based Search Error</string>
     <string name="button_search_coroutines_launch_crash">Coroutines Launch Based Search Crash</string>
     <string name="button_cancel">Cancel All Request</string>
+    <string name="button_search_suspend_coroutine">Suspend Coroutine Based Search</string>
+    <string name="button_search_suspend_coroutine_error">Suspend Coroutine Based Search Error</string>
+    <string name="button_search_suspend_coroutine_crash">Suspend Coroutine Based Search Crash</string>
 </resources>

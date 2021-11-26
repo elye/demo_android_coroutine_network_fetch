@@ -1,9 +1,8 @@
 package com.elyeproj.networkaccessevolution
 
 import com.google.gson.Gson
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import java.io.IOException
 import java.time.Duration
 
 object Network {
@@ -37,18 +36,47 @@ object Network {
     private const val SEARCH_KEY = "srsearch"
 
     fun fetchHttpResult(httpUrlBuilder: HttpUrl.Builder, queryString: String): Result {
-        val httpUrl = httpUrlBuilder
-                .removeAllQueryParameters(SEARCH_KEY)
-                .addQueryParameter(SEARCH_KEY, queryString)
-                .build()
-        val request = Request.Builder().get().url(httpUrl).build()
+        val request = setupHttpRequest(httpUrlBuilder, queryString)
         val response = httpClient.newCall(request).execute()
-        if (!response.isSuccessful)
-            return Result.NetworkError("Error ${response.code}:${response.message}")
+        return deserializeResponse(response)
+    }
 
+    fun fetchHttpResultAsync(
+        httpUrlBuilder: HttpUrl.Builder,
+        queryString: String,
+        onResult: (result: Result) -> Unit,
+        onFailure: (error: IOException) -> Unit
+    ) {
+        val request = setupHttpRequest(httpUrlBuilder, queryString)
+        httpClient.newCall(request).enqueue(object: Callback{
+            override fun onFailure(call: Call, excpetion: IOException) {
+                onFailure(excpetion)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                onResult(deserializeResponse(response))
+            }
+        })
+    }
+
+    private fun deserializeResponse(response: Response): Result {
+        if (!response.isSuccessful) {
+            return Result.NetworkError("Error ${response.code}:${response.message}")
+        }
         val raw = response.body?.string()
         val result = Gson().fromJson(raw, Model.Result::class.java)
         return Result.NetworkResult(result.query.searchinfo.totalhits.toString())
+    }
+
+    private fun setupHttpRequest(
+        httpUrlBuilder: HttpUrl.Builder,
+        queryString: String
+    ): Request {
+        val httpUrl = httpUrlBuilder
+            .removeAllQueryParameters(SEARCH_KEY)
+            .addQueryParameter(SEARCH_KEY, queryString)
+            .build()
+        return Request.Builder().get().url(httpUrl).build()
     }
 
     sealed class Result {

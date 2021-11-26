@@ -10,12 +10,25 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private val networkAccessCoroutinesLaunch = NetworkAccessCoroutinesLaunch(this)
     private val networkAccessCoroutinesAsyncAwait = NetworkAccessCoroutinesAsyncAwait(this)
+    private val networkAccessSuspendCoroutine = NetworkAccessSuspendCoroutine(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnSearchSuspendCoroutine.setOnClickListener {
+            beginSearch(::beginSearchSuspendCoroutine)
+        }
+
+        binding.btnSearchSuspendCoroutineError.setOnClickListener {
+            beginSearch(::beginSearchSuspendCoroutineError)
+        }
+
+        binding.btnSearchSuspendCoroutineCrash.setOnClickListener {
+            beginSearch(::beginSearchSuspendCoroutineCrash)
+        }
 
         binding.btnSearchCoroutinesLaunch.setOnClickListener {
             beginSearch(::beginSearchCoroutinesLaunch)
@@ -44,6 +57,18 @@ class MainActivity : AppCompatActivity(), MainView {
         if (binding.editSearch.text.toString().isNotEmpty()) {
             searchFunc(binding.editSearch.text.toString())
         }
+    }
+
+    private fun beginSearchSuspendCoroutine(queryString: String) {
+        networkAccessSuspendCoroutine.fetchData(Network.httpUrlBuilder, queryString)
+    }
+
+    private fun beginSearchSuspendCoroutineError(queryString: String) {
+        networkAccessSuspendCoroutine.fetchData(Network.errorHttpUrlBuilder, queryString)
+    }
+
+    private fun beginSearchSuspendCoroutineCrash(queryString: String) {
+        networkAccessSuspendCoroutine.fetchData(Network.crashHttpUrlBuilder, queryString)
     }
 
     private fun beginSearchCoroutinesLaunch(queryString: String) {
@@ -78,6 +103,7 @@ class MainActivity : AppCompatActivity(), MainView {
     private fun cancelAllRequest() {
         networkAccessCoroutinesLaunch.terminate()
         networkAccessCoroutinesAsyncAwait.terminate()
+        networkAccessSuspendCoroutine.terminate()
     }
 
     override fun updateScreen(result: String) {
