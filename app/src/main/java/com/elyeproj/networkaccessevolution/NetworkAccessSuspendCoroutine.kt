@@ -17,7 +17,7 @@ class NetworkAccessSuspendCoroutine(private val view: MainView) : NetworkAccess 
 
     override fun fetchData(httpUrlBuilder: HttpUrl.Builder, searchText: String) {
         coroutineScope?.cancel()
-        coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        coroutineScope = MainScope()
         coroutineScope?.launch(errorHandler) {
             logOut("Suspend Fetch Started")
             val result: MyResult = suspendCancellableCoroutine { cancellableContinuation ->
@@ -39,16 +39,14 @@ class NetworkAccessSuspendCoroutine(private val view: MainView) : NetworkAccess 
                     logOut("Suspend Cancel Result")
                 }
             }
-            launch(Dispatchers.Main) {
-                when (result) {
-                    is Network.Result.NetworkError -> {
-                        view.updateScreen(result.message)
-                        logOut("Suspend Post Error Result")
-                    }
-                    is Network.Result.NetworkResult -> {
-                        view.updateScreen(result.message)
-                        logOut("Suspend Post Success Result")
-                    }
+            when (result) {
+                is Network.Result.NetworkError -> {
+                    view.updateScreen(result.message)
+                    logOut("Suspend Post Error Result")
+                }
+                is Network.Result.NetworkResult -> {
+                    view.updateScreen(result.message)
+                    logOut("Suspend Post Success Result")
                 }
             }
         }
