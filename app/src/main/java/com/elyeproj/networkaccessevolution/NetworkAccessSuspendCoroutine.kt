@@ -24,26 +24,23 @@ class NetworkAccessSuspendCoroutine(private val view: MainView) : NetworkAccess 
                 Network.fetchHttpResultAsync(
                     httpUrlBuilder,
                     searchText, { result ->
-                        if (cancellableContinuation.isActive) {
-                            logOut("Suspend Fetch Done")
-                            cancellableContinuation.resumeWith(
-                                Result.success(result))
-                        } else {
-                            logOut("Suspend Cancel Fetch Result")
-                        }
+                        logOut("Suspend Fetch Done")
+                        cancellableContinuation.resumeWith(
+                            Result.success(result)
+                        )
                     }, { error ->
-                        if (cancellableContinuation.isActive) {
-                            logOut("Suspend Fetch Error")
-                            cancellableContinuation.resumeWith(
-                                Result.failure(error))
-                        } else {
-                            logOut("Suspend Cancel Error Result")
-                        }
+                        logOut("Suspend Fetch Error")
+                        cancellableContinuation.resumeWith(
+                            Result.failure(error)
+                        )
                     }
                 )
+                cancellableContinuation.invokeOnCancellation {
+                    logOut("Suspend Cancel Result")
+                }
             }
             launch(Dispatchers.Main) {
-                when(result) {
+                when (result) {
                     is Network.Result.NetworkError -> {
                         view.updateScreen(result.message)
                         logOut("Suspend Post Error Result")

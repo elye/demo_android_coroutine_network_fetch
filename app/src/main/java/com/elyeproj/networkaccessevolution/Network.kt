@@ -48,6 +48,11 @@ object Network {
         onFailure: (error: IOException) -> Unit
     ) {
         val request = setupHttpRequest(httpUrlBuilder, queryString)
+//        while(true) {
+//            Thread.sleep(5000)
+//            val response = httpClient.newCall(request).execute()
+//            onResult(deserializeResponse(response))
+//        }
         httpClient.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, excpetion: IOException) {
                 onFailure(excpetion)
