@@ -2,6 +2,8 @@ package com.elyeproj.networkaccessevolution
 
 import kotlinx.coroutines.*
 import okhttp3.HttpUrl
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import com.elyeproj.networkaccessevolution.Network.Result as MyResult
 
 class NetworkAccessSuspendCoroutine(private val view: MainView) : NetworkAccess {
@@ -25,14 +27,10 @@ class NetworkAccessSuspendCoroutine(private val view: MainView) : NetworkAccess 
                     httpUrlBuilder,
                     searchText, { result ->
                         logOut("Suspend Fetch Done")
-                        cancellableContinuation.resumeWith(
-                            Result.success(result)
-                        )
+                        cancellableContinuation.resume(result)
                     }, { error ->
                         logOut("Suspend Fetch Error")
-                        cancellableContinuation.resumeWith(
-                            Result.failure(error)
-                        )
+                        cancellableContinuation.resumeWithException(error)
                     }
                 )
                 cancellableContinuation.invokeOnCancellation {

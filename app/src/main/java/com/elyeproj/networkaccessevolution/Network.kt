@@ -49,8 +49,8 @@ object Network {
     ) {
         val request = setupHttpRequest(httpUrlBuilder, queryString)
         httpClient.newCall(request).enqueue(object: Callback{
-            override fun onFailure(call: Call, excpetion: IOException) {
-                onFailure(excpetion)
+            override fun onFailure(call: Call, exception: IOException) {
+                onFailure(exception)
             }
 
             override fun onResponse(call: Call, response: Response) {
