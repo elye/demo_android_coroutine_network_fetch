@@ -22,11 +22,6 @@ class NetworkAccessCoroutinesLaunch(private val view: MainView) : NetworkAccess 
                 logOut("Launch Fetch Started")
                 val result = Network.fetchHttpResult(httpUrlBuilder, searchText)
                 logOut("Launch Fetch Done")
-
-//                throw IllegalStateException("My Error")
-//                if (!isActive) {
-//                    logOut("cancel launch")
-//                }
                 yield()
                 launch(Dispatchers.Main) {
                     when(result) {
